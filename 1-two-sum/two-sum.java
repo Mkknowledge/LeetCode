@@ -1,12 +1,18 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        for(int i = 0; i < nums.length; i++) {
-            for(int j = i+1; j < nums.length; j++) {
-                if(nums[i] + nums[j] == target) {
-                    return new int[]{i, j};
-                }
+        Map<Integer, Integer> mapOfElement = new HashMap<>();
+        int[] arr = IntStream.range(0, nums.length)
+        .filter(index -> {
+            if (mapOfElement.containsKey(nums[index])) {
+                return true;
+            } else {
+                mapOfElement.put(target - nums[index], index);
+                return false;
             }
-        }
-       return null;
+        })
+        .mapToObj(index -> new int[]{mapOfElement.get(nums[index]), index})
+        .findFirst()
+        .orElse(new int[2]);
+        return arr;
     }
 }
